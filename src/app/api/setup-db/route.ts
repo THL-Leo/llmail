@@ -12,9 +12,14 @@ export async function POST(request: Request) {
     const { schemaType = 'full' } = await request.json().catch(() => ({ schemaType: 'full' }));
     
     // Determine which schema file to use
-    const schemaFile = schemaType === 'simplified' 
-      ? 'simplified-schema.sql' 
-      : 'schema.sql';
+    let schemaFile;
+    if (schemaType === 'simplified') {
+      schemaFile = 'simplified-schema.sql';
+    } else if (schemaType === 'policies') {
+      schemaFile = 'production-policies.sql';
+    } else {
+      schemaFile = 'schema.sql';
+    }
     
     // Read the schema
     const schemaPath = path.join(process.cwd(), `src/lib/supabase/${schemaFile}`);
