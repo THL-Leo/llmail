@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MailIcon } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { UserMenu } from "@/components/user-menu";
 
 export function Header() {
   return (
@@ -19,6 +20,7 @@ export function Header() {
           <Button variant="secondary" size="sm" asChild>
             <Link href="/api/env-test">Environment</Link>
           </Button>
+          <UserMenu />
         </div>
       </div>
     </header>

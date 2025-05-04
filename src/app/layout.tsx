@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/theme-provider";
+import { SessionProvider } from "@/components/auth/session-provider";
 import { Header } from "@/components/header";
 
 const geistSans = Geist({
@@ -42,13 +43,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1">
-              {children}
-            </main>
-          </div>
-          <Toaster position="bottom-right" />
+          <SessionProvider>
+            <div className="flex flex-col min-h-screen">
+              <Header />
+              <main className="flex-1">
+                {children}
+              </main>
+            </div>
+            <Toaster position="bottom-right" />
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

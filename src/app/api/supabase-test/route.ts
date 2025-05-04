@@ -7,11 +7,10 @@ import { supabase } from '@/lib/supabase/client';
  */
 export async function GET() {
   try {
-    // Test the connection by fetching the current timestamp
-    const { data, error } = await supabase.from('_test').select('*').limit(1).single();
+    // Simply use the auth API to check Supabase is responding
+    const { data, error } = await supabase.auth.getSession();
     
-    if (error && error.code !== 'PGRST116') {
-      // PGRST116 means the table doesn't exist, which is expected
+    if (error) {
       return NextResponse.json({
         success: false,
         message: 'Failed to connect to Supabase',
@@ -22,8 +21,10 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       message: 'Successfully connected to Supabase',
+      authenticated: data.session !== null,
       timestamp: new Date().toISOString(),
     });
+    
   } catch (error) {
     console.error('Error testing Supabase connection:', error);
     return NextResponse.json({

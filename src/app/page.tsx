@@ -4,9 +4,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
-import { InfoIcon, MailIcon, CheckCircleIcon, ArrowRightIcon, DatabaseIcon } from "lucide-react";
+import { InfoIcon, MailIcon, CheckCircleIcon, ArrowRightIcon, DatabaseIcon, UserIcon } from "lucide-react";
+import { getSession } from "@/lib/auth/session";
 
-export default function Home() {
+export default async function Home() {
+  // Get session to display auth status
+  const session = await getSession();
   return (
     <div className="container mx-auto px-4 py-12">
       <div className="flex flex-col items-center space-y-8 mb-12">
@@ -129,14 +132,12 @@ export default function Home() {
               </div>
               
               <div className="flex items-center gap-3">
-                <div className="h-5 w-5 rounded-full border border-zinc-200 flex items-center justify-center">
-                  <span className="text-xs">4</span>
-                </div>
+                <CheckCircleIcon className="h-5 w-5 text-green-500" />
                 <div className="flex-1">
                   <p className="font-medium">Phase 1.4: User Authentication</p>
                   <p className="text-sm text-muted-foreground">Implement NextAuth with Google provider</p>
                 </div>
-                <Badge variant="secondary">Pending</Badge>
+                <Badge className="bg-green-500">Complete</Badge>
               </div>
             </div>
           </CardContent>
@@ -185,24 +186,62 @@ export default function Home() {
         
         <Card>
           <CardHeader>
-            <CardTitle>Next Steps</CardTitle>
+            <CardTitle className="flex items-center gap-2">
+              <UserIcon className="h-5 w-5 text-primary" />
+              Authentication Status
+            </CardTitle>
             <CardDescription>
-              Continue with authentication setup
+              {session?.user ? 'You are signed in' : 'Sign in to continue'}
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ol className="space-y-2 list-decimal list-inside text-sm">
-              <li>Implement NextAuth with Google provider</li>
-              <li>Create sign-in and sign-out pages</li>
-              <li>Set up user session management</li>
-              <li>Create user profile in Supabase on sign-in</li>
-            </ol>
+            {session?.user ? (
+              <div className="space-y-4">
+                <div className="p-3 bg-green-50 dark:bg-green-950 rounded-md">
+                  <p className="text-sm text-green-700 dark:text-green-300 flex items-center">
+                    <CheckCircleIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+                    <span>Authentication complete! You are signed in as <strong>{session.user.name}</strong></span>
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  <p className="text-sm">Next steps:</p>
+                  <ol className="space-y-2 list-decimal list-inside text-sm">
+                    <li>Set up email service (Nylas or EmailEngine)</li>
+                    <li>Create email connection flow</li>
+                    <li>Implement email fetching</li>
+                    <li>Create basic email display UI</li>
+                  </ol>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <div className="p-3 bg-amber-50 dark:bg-amber-950 rounded-md">
+                  <p className="text-sm text-amber-700 dark:text-amber-300">
+                    You need to sign in to use the Smart Email Manager.
+                  </p>
+                </div>
+                <p className="text-sm text-muted-foreground">
+                  Click the Sign In button in the top right corner to authenticate with Google.
+                </p>
+              </div>
+            )}
           </CardContent>
           <CardFooter>
-            <Button className="gap-2">
-              Continue to Next Phase
-              <ArrowRightIcon className="h-4 w-4" />
-            </Button>
+            {session?.user ? (
+              <Link href="/profile">
+                <Button className="gap-2">
+                  View Your Profile
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Button>
+              </Link>
+            ) : (
+              <Button className="gap-2" asChild>
+                <Link href="/signin">
+                  Sign In
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Link>
+              </Button>
+            )}
           </CardFooter>
         </Card>
       </div>

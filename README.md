@@ -1,36 +1,75 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Smart Email Manager
 
-## Getting Started
+An intelligent email management system powered by Claude AI.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Next.js 15 with App Router
+- TypeScript
+- Tailwind CSS & shadcn/ui
+- Supabase database integration
+- NextAuth authentication with Google
+- Claude AI API integration (coming soon)
+- Email service integration (coming soon)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Project Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up your environment variables in `.env.local` file:
+   ```bash
+   # Supabase Configuration
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   # Next Auth Configuration
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-nextauth-secret
 
-## Learn More
+   # Google OAuth Configuration
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
 
-To learn more about Next.js, take a look at the following resources:
+   # Email Service Configuration (Nylas or EmailEngine)
+   EMAIL_SERVICE_API_KEY=
+   EMAIL_SERVICE_CLIENT_ID=
+   EMAIL_SERVICE_CLIENT_SECRET=
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   # Claude API Configuration
+   CLAUDE_API_KEY=
+   ```
+4. Set up your Supabase database:
+   - Create a new project at https://supabase.com
+   - Get your project URL and API keys from the dashboard
+   - Run the database schema to create the tables and policies
+5. Set up Google OAuth:
+   - Create a project in the Google Cloud Console
+   - Configure the OAuth consent screen
+   - Create OAuth credentials (Web application type)
+   - Add `http://localhost:3000/api/auth/callback/google` as an authorized redirect URI
+6. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Implementation Progress
 
-## Deploy on Vercel
+- [x] Phase 1.1: Project Initialization
+- [x] Phase 1.2: Environment Configuration
+- [x] Phase 1.3: Supabase Setup
+- [x] Phase 1.4: User Authentication
+- [ ] Phase 2: Database Schema
+- [ ] Phase 3: Email Service Integration
+- [ ] Phase 4: Claude API Integration
+- [ ] Phase 5: Core API Routes
+- [ ] Phase 6: Frontend Dashboard
+- [ ] Phase 7: Email Cleanup Features
+- [ ] Phase 8: Polish and Testing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## License
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is for demonstration purposes only.
